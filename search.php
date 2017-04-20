@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -23,6 +24,7 @@
   <link rel="stylesheet" type="text/css" href="stylesheet.css">
    <link rel="icon" type="image/jpg" sizes="16x16" href="images/logo.jpg">
   
+
 
   </head>
 
@@ -63,17 +65,39 @@
       <div class="col-md-4" ></div>
       <div class="col-md-8" >    
              
-      <form>
+      <form method="POST" action="">
 
         <label for="source">
         <span>Source</span>
-        <input id="source" type="text" class="form-control" name="source" placeholder="Where you want to start?" />      
+        <input list="sources" id="source" type="text" class="form-control" name="source" placeholder="Where to start?" />      
+        <datalist id="sources">
+          <option value="K-KingsLanding">
+          <option value="W-WinterFell">
+          <option value="S-Storm">
+          <option value="H-Harenhall">
+          <option value="D-Dorne">
+          <option value="m-Mereen">
+          <option value="a-Astapor">
+          <option value="b-Bravos">
+          <option value="y-Yunkai">
+        </datalist>
         </label>
 
 
         <label for="dest">
         <span>Destination</span>
-        <input id="dest" type="text" class="form-control" name="dest" placeholder="Where you want to end?" />      
+        <input list="dests" id="dest" type="text" class="form-control" name="dest"  placeholder="Where to end?" />      
+        <datalist id="dests">
+          <option value="K-KingsLanding">
+          <option value="W-WinterFell">
+          <option value="S-Storm">
+          <option value="H-Harenhall">
+          <option value="D-Dorne">
+          <option value="m-Mereen">
+          <option value="a-Astapor">
+          <option value="b-Bravos">
+          <option value="y-Yunkai">
+        </datalist>
         </label>
 
         <label for="button">
@@ -92,14 +116,31 @@
 
   </div>
       
-    
-
-
-
-  
-
-
- 
     </body>
 
 </html>
+
+
+<?php 
+  $connection = mysql_connect("localhost", "root", ""); 
+  $db = mysql_select_db("TravelAgency", $connection);
+ // echo "<h1> Mohtih </h1>";
+  if(isset($_POST['submit'])){ 
+  $source = $_POST['source'];
+  $dest = $_POST['dest'];
+  if($source!='' ||$dest!='' )
+  {
+    $result = mysql_query("SELECT BusRoute FROM bus");
+    while ($row = mysql_fetch_array($result, MYSQL_NUM)) 
+    {
+      echo $row[0][0];
+
+    }
+
+  }
+  else
+  {
+    echo "Enter All The Details";
+  }
+}
+?>
