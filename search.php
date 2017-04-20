@@ -133,8 +133,7 @@
     $result = mysql_query("SELECT BusRoute FROM bus");
     while ($row = mysql_fetch_array($result, MYSQL_NUM)) 
     {
-      echo $row[0][0];
-
+        
     }
 
   }
