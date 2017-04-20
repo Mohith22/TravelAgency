@@ -159,7 +159,7 @@ function myfun1(mp){
           .data('seatId', this.settings.id)
           .appendTo($cart);
 
-          seats.push(this.settings.row*10+this.settings.label);
+          seats.push(this.settings.row*4+this.settings.label);
         $counter.text(sc.find('selected').length+1);
         $total.text(recalculateTotal(sc)+price);
               
@@ -174,7 +174,7 @@ function myfun1(mp){
           $('#cart-item-'+this.settings.id).remove();
           //optional
 
-          var index =seats.indexOf(this.settings.row*10+this.settings.label);
+          var index =seats.indexOf(this.settings.row*4+this.settings.label);
           if (index > -1) {
               seats.splice(index, 1);
           }
