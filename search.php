@@ -133,7 +133,23 @@
     $result = mysql_query("SELECT BusRoute FROM bus");
     while ($row = mysql_fetch_array($result, MYSQL_NUM)) 
     {
-        
+        $flag=0;
+        for($i=0;$i<count_chars($row[0]);$i++)
+        {
+          if($row[0][$i] == $source[0])
+          {
+            $flag=1;
+          }
+
+          if($flag==1)
+          {
+            if($row[0][$i] == $dest[0])
+            {
+              /* This Bus name need to be displayed with a button view which on pressing 
+              gives details of bus - name , price and stops middle of it  */
+            }
+          }
+        }
     }
 
   }
