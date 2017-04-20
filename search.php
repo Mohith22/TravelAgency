@@ -65,7 +65,7 @@
       <div class="col-md-4" ></div>
       <div class="col-md-8" >    
              
-      <form method="POST" action="">
+      <form method="POST" >
 
         <label for="source">
         <span>Source</span>
@@ -106,56 +106,95 @@
         </label>
 
       </form>
-
-
-       
-
-      
-    </div>
     
 
   </div>
+      </div>
+      <br/></br></br>
+      <div class="row">
+         <div class="col-md-3" ></div>
+          <div class="col-md-6" >
+     <div class="row table-responsive table-condensed">
+              <table id="busTable" class="table table-bordered">
+                  <thead>
+                  <tr>
+                      <th>Bus Name</th>
+                      <th>Stops</th>
+                      <th>Bus Type</th>
+                      <th>Book</th>
+                      <!-- <th>Cost</th> -->
+                  </tr>
+                  </thead>
+                  <tbody id="busBody">
+                  </tbody>
+              </table>
+        </div>
       
+    </div>
+     <div class="col-md-4" ></div>
+  </div>
     </body>
+
+    <script type="text/javascript" >
+   $(document).ready(function() {
+
+      function showBus(data) {
+            $("#BusBody").empty();
+            $.each(JSON.parse(data), function(i, bus) {
+
+                var busid = bus.BusId;
+                var busname = bus.BusName;
+                var busroute = bus.BusRoute;
+                var bustype = bus.BusType;
+                var actionBtn = '<button type="button" onclick="book(\'' + busid + '\' )" >Book</a> ';
+      
+            var row = '<tr>' +
+                '<td>' + busname+ '</td>' +
+                '<td>' + busroute + '</td>' +
+                '<td> ' + bustype  + '</td>' +
+                '<td> ' + actionBtn  + '</td>' +
+                '</tr>';
+      
+                $("#busBody").append(row);
+            });
+        };
+
+    $("#btn").click(function(e){
+
+            e.preventDefault();
+            var src = document.getElementById('source').value;
+            var dest = document.getElementById('dest').value;
+
+            if(src=='' || dest==''){
+              alert("enter all details");
+              return;
+            }
+
+            $.ajax({
+                  url : "searchbus.php",
+                  type: "POST",
+                  cache: false,
+                  data : {source:src, dest:dest},
+                  success: function(data)
+                  {
+                      //data - response from server
+                      showBus(data);
+
+                  },
+
+              });
+          
+          });
+
+      function trim(str){
+          var str=str.replace(/^\s+|\s+$/,'');
+          return str;
+      }
+  
+ });
+
+  </script>  
+  
 
 </html>
 
-
-<?php 
-  $connection = mysql_connect("localhost", "root", ""); 
-  $db = mysql_select_db("TravelAgency", $connection);
- // echo "<h1> Mohtih </h1>";
-  if(isset($_POST['submit'])){ 
-  $source = $_POST['source'];
-  $dest = $_POST['dest'];
-  if($source!='' ||$dest!='' )
-  {
-    $result = mysql_query("SELECT BusRoute FROM bus");
-    while ($row = mysql_fetch_array($result, MYSQL_NUM)) 
-    {
-        $flag=0;
-        for($i=0;$i<count_chars($row[0]);$i++)
-        {
-          if($row[0][$i] == $source[0])
-          {
-            $flag=1;
-          }
-
-          if($flag==1)
-          {
-            if($row[0][$i] == $dest[0])
-            {
-              /* This Bus name need to be displayed with a button view which on pressing 
-              gives details of bus - name , price and stops middle of it  */
-            }
-          }
-        }
-    }
-
-  }
-  else
-  {
-    echo "Enter All The Details";
-  }
-}
-?>
