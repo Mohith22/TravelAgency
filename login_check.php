@@ -57,57 +57,19 @@
    <div class="row">
       <div class="col-md-2" ></div>
       <div class="col-md-8" >    <div class="wrapper">
-    <form class="form-signin" action="login_check.php" method="post">       
+    <form class="form-signin"  method="post">       
       <h2 class="form-signin-heading">Login</h2>
       <br>
        
-      <input type="text" class="form-control" name="username" placeholder="UserName" />
+      <input type="text" class="form-control" name="username" id="username" placeholder="UserName" />
        <br>
         
-      <input type="password" class="form-control" name="password" placeholder="Password" />      
+      <input type="password" class="form-control" name="password" id="password" placeholder="Password" />      
       <br>
        
-      <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit">Login</button>   
+      <button id="btn" class="btn btn-lg btn-primary btn-block" type="submit" name="submit">Login</button>   
     </form>
-    <?php
-
-$host="localhost"; // Host name 
-$username="root"; // Mysql username 
-$password=""; // Mysql password 
-$db_name="TravelAgency"; // Database name 
-
-// Connect to server and select databse.
-mysql_connect("$host", "$username", "$password")or die("cannot connect"); 
-mysql_select_db("$db_name")or die("cannot select DB");
-
-// username and password sent from form 
-if(isset($_POST['submit'])){ 
-$myusername=$_POST['username']; 
-$mypassword=$_POST['password'];
-if($username!='' ||$password!='' ){ 
-
-
-$sql="SELECT * FROM Users WHERE UserName='$myusername' and Password='$mypassword'";
-$result=mysql_query($sql);
-
-// Mysql_num_row is counting table row
-$count=mysql_num_rows($result);
-
-// If result matched $myusername and $mypassword, table row must be 1 row
-if($count==1){
-
-// Register $myusername, $mypassword and redirect to file "login_success.php".
-  session_start();
- $_SESSION['username'] = $myusername;
-
-header("location:home.php");
-}
-else {
-echo "Wrong Username or Password";
-}
-}
-}
-?>
+    
   </div></div>
 
 
@@ -116,7 +78,45 @@ echo "Wrong Username or Password";
     </div>
 
 
+<script type="text/javascript" >
+   $(document).ready(function() {
 
+
+    $("#btn").click(function(e){
+
+            e.preventDefault();
+            var username=$('#username').val();
+            var password=$('#password').val();
+
+            if(username == ""){
+              alert("Enter Username!");
+            }else{
+
+                $.ajax({
+                  url : "login_verify.php",
+                  type: "POST",
+                  cache: false,
+                  data : {username:username, password:password},
+                  success: function(data)
+                  {
+                      //data - response from server
+                      var result=trim(data);
+                      alert(result);
+
+                  },
+
+              });
+          }
+          });
+
+      function trim(str){
+          var str=str.replace(/^\s+|\s+$/,'');
+          return str;
+      }
+  
+ });
+
+  </script>  
   
 
 

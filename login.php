@@ -1,21 +1,4 @@
-<?php
-$connection = mysql_connect("localhost", "root", ""); // Establishing Connection with Server
-$db = mysql_select_db("TravelAgency", $connection); // Selecting Database from Server
-if(isset($_POST['submit'])){ // Fetching variables of the form which travels in URL
 
-$username = $_POST['username'];
-$password = $_POST['password'];
-if($username!='' ||$password!='' ){
-//Insert Query of SQL
-$query = mysql_query("insert into Users(UserName, Password) values ('$username', '$password')");
-//echo "Successfully Signed Up";
-}
-else
-{
-  echo "Enter All The Details";
-}
-}
-?>
 
 
 <!DOCTYPE html>
@@ -41,19 +24,6 @@ else
   <link rel="stylesheet" type="text/css" href="stylesheet.css">
    <link rel="icon" type="image/jpg" sizes="16x16" href="images/logo.jpg">
 
-    <script type="text/javascript">
-
- $(document).ready(function() {
-
-    $("#btn").click(function() {                
-        var uname = $("#uname").val(); 
-        var pass = $("#pass").val(); 
-        window.alert("Welcome "+uname); 
-    });
-  
- });
-
-  </script>  
 
   </head>
 
@@ -95,7 +65,7 @@ else
       <div class="col-md-8" >    
         <div class="wrapper">
       
-    <form class="form-signin" action="login.php" method="post">       
+    <form class="form-signin" name="sinupform" id="signupform" method="post">       
       <h2 class="form-signin-heading">Sign Up</h2>
       <br>
        
@@ -118,8 +88,49 @@ else
     </div>
 
 
+<script type="text/javascript" >
+   $(document).ready(function() {
 
+
+    $("#btn").click(function(e){
+
+            e.preventDefault();
+            var username=$('#uname').val();
+            var password=$('#pass').val();
+
+            if(username == ""){
+              alert("Enter Username!");
+            }else{
+
+                $.ajax({
+                  url : "signup.php",
+                  type: "POST",
+                  cache: false,
+                  data : {username:username, password:password},
+                  success: function(data)
+                  {
+                      //data - response from server
+                      var result=trim(data);
+                      alert(result);
+
+                      if(result == "successful"){
+                        window.location="login_check.php";
+                    }
+
+                  },
+
+              });
+          }
+          });
+
+      function trim(str){
+          var str=str.replace(/^\s+|\s+$/,'');
+          return str;
+      }
   
+ });
+
+  </script>  
 
 
  
