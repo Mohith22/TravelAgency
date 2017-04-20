@@ -139,13 +139,15 @@
    $(document).ready(function() {
 
       function showBus(data) {
-            $("#BusBody").empty();
+            $("#busBody").empty();
             $.each(JSON.parse(data), function(i, bus) {
 
                 var busid = bus.BusId;
                 var busname = bus.BusName;
                 var busroute = bus.BusRoute;
                 var bustype = bus.BusType;
+                if(bustype==0) bustype="city rider";
+                else bustype="people\'s rider";
                 var actionBtn = '<button type="button" onclick="book(\'' + busid + '\' )" >Book</a> ';
       
             var row = '<tr>' +
