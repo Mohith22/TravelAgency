@@ -148,7 +148,7 @@
                 var bustype = bus.BusType;
                 if(bustype==0) bustype="city rider";
                 else bustype="people\'s rider";
-                var actionBtn = '<button type="button" onclick="book(\'' + busid + '\' )" >Book</a> ';
+                var actionBtn = '<a  href="seatmap.php?busid='+busid+' " >Book</a> ';
       
             var row = '<tr>' +
                 '<td>' + busname+ '</td>' +
@@ -160,6 +160,9 @@
                 $("#busBody").append(row);
             });
         };
+
+
+
 
     $("#btn").click(function(e){
 
@@ -188,11 +191,15 @@
           
           });
 
+
+
       function trim(str){
           var str=str.replace(/^\s+|\s+$/,'');
           return str;
       }
   
+
+
  });
 
   </script>  
